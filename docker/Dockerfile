@@ -9,7 +9,7 @@ ENV TEST_USER_UID $TEST_USER_UID
 
 RUN echo "include_only=.garr.it,.cern.ch" >> /etc/yum/pluginconf.d/fastestmirror.conf && \
       yum clean all && \
-      yum install -y hostname epel-release && \
+      yum install -y git hostname epel-release && \
       yum -y update && \
       yum -y install which wget tar sudo file && \
       echo '%wheel ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
@@ -30,6 +30,10 @@ RUN yum -y install epel-release && \
     rm -rf /var/cache/yum
 
 RUN yum -y install https://github.com/indigo-dc/oidc-agent/releases/download/v3.3.5/oidc-agent-3.3.5-1.el7.x86_64.rpm
+
+#Install FTS3 Rest CLI
+RUN yum install -y python-pycurl m2crypto python26 python26-pycurl python26-m2crypto python-pip fts-rest-cli
+RUN pip install setuptools requests
 
 ENV TINI_VERSION v0.18.0
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
